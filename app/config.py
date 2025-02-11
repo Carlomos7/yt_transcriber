@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     app_name: str = Field(default="YouTube Transcriber", env="APP_NAME")
     debug: bool = Field(default=True, env="DEBUG")
     api_key: str = Field(..., env="API_KEY")
-    
+
     host: str = Field(default="0.0.0.0", env="HOST")
     port: int = Field(default=8000, env="PORT")
 
