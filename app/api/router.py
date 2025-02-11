@@ -1,11 +1,15 @@
 from fastapi import APIRouter, FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from app.models import DownloadRequest, TranscribeRequest, FileRequest
-from app.services.downloader import download_audio_from_youtube, download_video_from_youtube
-from app.services.transcriber import transcribe_audio
+from app.services.downloader import (
+    download_audio_from_youtube,
+    download_video_from_youtube,
+)
+from app.services.transcriber import transcribe_the_audio
 from app.services.file_manager import get_file_path
 
 router = APIRouter()
+
 
 ### **🔹 Download Routes**
 @router.post("/download/audio/")
@@ -17,6 +21,7 @@ async def download_audio(request: DownloadRequest):
         raise HTTPException(status_code=500, detail="Failed to download audio.")
 
     return {"message": "Download successful", "file_path": audio_path}
+
 
 @router.post("/download/video/")
 async def download_video(request: DownloadRequest):
@@ -31,9 +36,17 @@ async def download_video(request: DownloadRequest):
 
 ### **🔹 Transcription Routes**
 @router.post("/transcribe/")
-async def transcribe_audio(request: TranscribeRequest):
-    """Transcribe an audio file."""
-    transcription = transcribe_audio(request.file_path)
+async def transcribe_audio_endpoint(request: TranscribeRequest):
+    """Downloads YouTube audio and transcribes it."""
+
+    print(f"🔄 Starting transcription for: {request.url}")
+
+    audio_path = download_audio_from_youtube(request.url, "downloads")
+
+    if not audio_path:
+        raise HTTPException(status_code=500, detail="Failed to download audio.")
+    print("✅ Audio downloaded.")
+    transcription = transcribe_the_audio(audio_path)
 
     if not transcription:
         raise HTTPException(status_code=500, detail="Failed to transcribe audio.")

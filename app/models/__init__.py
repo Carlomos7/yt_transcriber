@@ -7,7 +7,7 @@ class DownloadRequest(BaseModel):
 
 class TranscribeRequest(BaseModel):
     """Model for handling transcription requests."""
-    file_path: str
+    url: str
 
 class FileRequest(BaseModel):
     """Model for handling file retrieval requests."""

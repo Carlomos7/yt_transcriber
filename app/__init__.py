@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from .config import settings
 from .api.router import router
+import whisper
 
 
 def create_app():

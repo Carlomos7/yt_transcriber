@@ -29,6 +29,7 @@ def _download_from_youtube(yt_url: str, output_dir: str, audio_only: bool) -> st
             ydl.download([yt_url])
 
         final_path = output_path / (f"{title}.mp3" if audio_only else f"{title}.mp4")
+        print(f"✅ Downloaded: {final_path}")
         return str(final_path.resolve()) if final_path.exists() else None
 
     except Exception as e:
