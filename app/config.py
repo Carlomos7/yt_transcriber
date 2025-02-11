@@ -12,13 +12,16 @@ class Settings(BaseSettings):
     app_name: str = Field(default="YouTube Transcriber", env="APP_NAME")
     debug: bool = Field(default=True, env="DEBUG")
     api_key: str = Field(..., env="API_KEY")
+    
+    host: str = Field(default="0.0.0.0", env="HOST")
+    port: int = Field(default=8000, env="PORT")
 
     # YouTube Downloader Options
     yt_username: str = Field(default="", env="YT_USERNAME")
     yt_password: str = Field(default="", env="YT_PASSWORD")
     yt_format: str = Field(default="bestaudio/best", env="YT_FORMAT")
     yt_nocheckcertificate: bool = Field(default=True, env="YT_NOCHECKCERTIFICATE")
-    
+
     # Whisper Model Config
     whisper_model: str = Field(default="small", env="WHISPER_MODEL")
 
